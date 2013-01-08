@@ -20,11 +20,25 @@ public class Utils {
 		return new String(charArray);
 	}
 	
+	public static void removeChineseDots() {
+		String str = "中，过？《人》“们”测。时：";
+		str = str.replaceAll("(?i)[^a-zA-Z0-9\u4E00-\u9FA5]", "");	
+		System.out.println("remove chinese dots = " + str);
+	}
+	
+	public static void removeWhiteSpace() {
+		String str = "1	2 3\n4\r56";
+		String totalTrimmed = str.replaceAll("\\s+", "");
+		System.out.println("remove white space =" + totalTrimmed);
+		//remove the blank space 不能移除tab，回车等空白字符
+		System.out.println("remove only the blank space" + str.replaceAll(" ", ""));
+	}
+	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
