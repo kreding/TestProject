@@ -23,7 +23,7 @@ public class Utils {
 	public static void removeChineseDots() {
 		String str = "中，过？《人》“们”测。时：";
 		str = str.replaceAll("(?i)[^a-zA-Z0-9\u4E00-\u9FA5]", "");	
-		System.out.println("remove chinese dots = " + str); 
+		System.out.println("remove chinese dots = " + str);
 	}
 	
 	public static void removeWhiteSpace() {
