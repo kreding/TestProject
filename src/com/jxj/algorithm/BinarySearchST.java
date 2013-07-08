@@ -2,6 +2,13 @@ package com.jxj.algorithm;
 
 import com.jxj.algorithm.datastructure.Queue;
 
+/**
+ * 二分查找算法，基于有序数组
+ * @author kreding
+ *
+ * @param <Key>
+ * @param <Value>
+ */
 public class BinarySearchST<Key extends Comparable<Key>, Value> {
 	private Key[] keys;
 	private Value[] vals;

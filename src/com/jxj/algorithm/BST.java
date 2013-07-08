@@ -1,5 +1,11 @@
 package com.jxj.algorithm;
-
+/**
+ * 二叉查找树
+ * @author kreding
+ *
+ * @param <Key>
+ * @param <Value>
+ */
 public class BST<Key extends Comparable<Key>, Value> {
 
 	private Node root;
@@ -169,6 +175,56 @@ public class BST<Key extends Comparable<Key>, Value> {
 			return node;
 		}else {
 			return t;
+		}
+	}
+	
+	/**
+	 * 查找排名为k的值
+	 * @param k
+	 * @return
+	 */
+	public Key select(int k) {
+		if(k > size()) return null;
+		
+		return select(root, k).key;
+	}
+	
+	private Node select(Node node, int k) {
+		if(node == null) {
+			return null;
+		}
+		
+		int t = size(node);
+		if(t > k) {
+			return select(node.left, k);
+		}else if(t < k) {
+			return select(node.right, k -t -1);
+		}else {
+			return node;
+		}
+	}
+	
+	/**
+	 * 查找key的排名
+	 * @param key
+	 * @return
+	 */
+	public int rank(Key key) {
+		return rank(root, key);
+	}
+	
+	private int rank(Node node, Key key) {
+		if(node == null) {
+			return 0;
+		}
+		
+		int cmp = key.compareTo(node.key);
+		if(cmp > 0) {
+			return 1 + size(node.left) + rank(node.right, key);
+		}else if(cmp < 0) {
+			return rank(node.left, key);
+		}else {
+			return size(node);
 		}
 	}
 }
