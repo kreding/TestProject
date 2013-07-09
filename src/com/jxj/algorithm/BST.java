@@ -36,6 +36,11 @@ public class BST<Key extends Comparable<Key>, Value> {
 		return node.N;
 	}
 	
+	/**
+	 * 获取制定的节点值
+	 * @param key
+	 * @return
+	 */
 	public Value get(Key key) {
 		return get(root, key);
 	}
@@ -56,6 +61,11 @@ public class BST<Key extends Comparable<Key>, Value> {
 		
 	}
 	
+	/**
+	 * 添加新的节点或更新已存在节点
+	 * @param key
+	 * @param val
+	 */
 	public void put(Key key, Value val) {
 		put(root, key, val);
 	}
@@ -78,6 +88,10 @@ public class BST<Key extends Comparable<Key>, Value> {
 		return node;
 	}
 	
+	/**
+	 * 最小节点
+	 * @return
+	 */
 	public Key min() {
 		return min(root).key;
 	}
@@ -226,5 +240,65 @@ public class BST<Key extends Comparable<Key>, Value> {
 		}else {
 			return size(node);
 		}
+	}
+	
+	/**
+	 * 删除最小值
+	 */
+	public void deleteMin() {
+		// 递归从跟节点到最小节点的父节点，并更新其N值，最后返回的是更新N值后原始根结点
+		// 注：此处返回的不是被删除掉的节点，而是被删除节点父节点
+		root = deleteMin(root);
+	}
+	
+	// 递归从根结点开始的左右左子树的节点，知道左子树为空
+	private Node deleteMin(Node node) {
+		if(node.left == null) {
+			return node.right;
+		}
+		
+		node.left = deleteMin(node.left);
+		node.N = size(node.left) + size(node.right) + 1;
+		return node;
+	}
+	
+	/**
+	 * 删除制定key的节点
+	 * 
+	 * 原理：
+	 * 当被删除节点的左右子树都不为空时，用其右子树的最小节点替换它的位置，
+	 * 新节点的左子树为被删除节点左子树，新节点右子树为被删除节点的右子树
+	 * 删除最小节点后形成新的右子树
+	 * @param key
+	 */
+	public void delete(Key key) {
+		root = delete(root, key);
+	}
+
+	private Node delete(Node node, Key key) {
+		if(node == null) {
+			return null;
+		}
+		
+		int cmp = key.compareTo(node.key);
+		if(cmp > 0) {
+			node.right = delete(node.right, key);
+		}else if(cmp < 0) {
+			node.left = delete(node.left, key);
+		}else {
+			if(node.left == null ) {
+				return node.right;
+			}
+			if(node.right == null) {
+				return node.left;
+			}
+			
+			Node d = node;
+			node = min(node.right);
+			node.right = deleteMin(d.right);
+			node.left = d.left;
+		}
+		node.N = size(node.left) + size(node.right) + 1;
+		return node;
 	}
 }
