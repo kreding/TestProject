@@ -294,8 +294,11 @@ public class BST<Key extends Comparable<Key>, Value> {
 			}
 			
 			Node d = node;
+			// 更新被删除节点的父节点的连接为其右子树的最小节点
 			node = min(node.right);
+			// 新节点的右子树为被删除节点右子树，但是已经删除其最小节点
 			node.right = deleteMin(d.right);
+			// 新节点的左子树为被删除节点的左子树
 			node.left = d.left;
 		}
 		node.N = size(node.left) + size(node.right) + 1;
