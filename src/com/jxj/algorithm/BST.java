@@ -1,4 +1,7 @@
 package com.jxj.algorithm;
+
+import com.jxj.algorithm.datastructure.Queue;
+
 /**
  * 二叉查找树
  * @author kreding
@@ -303,5 +306,45 @@ public class BST<Key extends Comparable<Key>, Value> {
 		}
 		node.N = size(node.left) + size(node.right) + 1;
 		return node;
+	}
+	
+	/**
+	 * 二叉查找树的key的集合
+	 * @return
+	 */
+	public Iterable<Key> keys() {
+		return keys(min(), max());
+	}
+
+	/**
+	 * 获取二叉查找树中部分范围内的键的集合
+	 * @param lo
+	 * @param hi
+	 * @return
+	 */
+	private Iterable<Key> keys(Key lo, Key hi) {
+		Queue<Key> queue = new Queue<Key>();
+		keys(root, queue, lo, hi);
+		return queue;
+	}
+
+	private void keys(Node node, Queue<Key> queue, Key lo, Key hi) {
+		if(node == null) {
+			return;
+		}
+		
+		int cmplo = lo.compareTo(node.key);
+		int cmphi = hi.compareTo(node.key);
+		
+		if(cmplo < 0) {
+			keys(node.left, queue, lo, hi);
+		}
+		if(cmplo <= 0 && cmphi >= 0) {
+			queue.enqueue(node.key);
+		}
+		if(cmphi > 0) {
+			keys(node.right, queue, lo, hi);
+		}
+		
 	}
 }
